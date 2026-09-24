@@ -1,5 +1,6 @@
 import turtle
 import math
+import time
 
 screenWidth = 900
 screenHeight = 450
@@ -9,8 +10,6 @@ turtle.setup(screenWidth, screenHeight)
 screen = turtle.Screen()
 screen.title(windowTitle)
 
-screen.tracer(0)
-
 t = turtle.Turtle()
 t.fillcolor('red')
 
@@ -18,8 +17,9 @@ def splashScreen():
     t.up()
     t.goto(0,100)
     t.write("CODE AND SEEK!", align='center', font=('Arial','40'))
-    screen.update()
-    screen.textinput(" ","Press OK to begin")
+    t.goto(0,-150)
+    t.write("Rules: The hider chooses one spot on screen, and the seeker gets four chances to find it, given the distance each time.", align='center', font=('Arial','12'))
+    screen.textinput("Start Game", "Press OK to start the game")
 
 def setLocation():
     # Get hider pos
@@ -33,12 +33,10 @@ def guessAndCompare(hiderPos):
     yGuess = screen.numinput("SEEKER", "Enter a y-Position:")
 
     # Compare to hider pos and return all info
-    score = 0
     distanceToHider = math.sqrt(math.fabs(hiderPos[0]-xGuess)**2 + math.fabs(hiderPos[1]-yGuess)**2)
-    if 200-distanceToHider < 0:
-        score = 0
-    else:
-        score = (200-distanceToHider)**2/4000
+    score = max(0,200-distanceToHider)**2/4000
+
+    # Return all relevant info
     return distanceToHider, score, xGuess, yGuess
 
 def drawGuess(distanceToHider, score, xGuess, yGuess):
@@ -56,10 +54,12 @@ def drawGuess(distanceToHider, score, xGuess, yGuess):
     screen.update()
 
 splashScreen()
-screen.clear()
+screen.clearscreen()
+screen.tracer(0)
 hiderLocation = setLocation()
-guessInfo = guessAndCompare(hiderLocation)
-drawGuess(guessInfo[0],guessInfo[1],guessInfo[2],guessInfo[3])
+for i in range(4):
+    guessInfo = guessAndCompare(hiderLocation)
+    drawGuess(guessInfo[0],guessInfo[1],guessInfo[2],guessInfo[3])
 
 
 turtle.done()
