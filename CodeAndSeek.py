@@ -1,6 +1,5 @@
 import turtle
 import math
-import time
 
 screenWidth = 900
 screenHeight = 450
@@ -12,6 +11,7 @@ screen.title(windowTitle)
 
 t = turtle.Turtle()
 t.fillcolor('red')
+screen.tracer(0)
 
 def splashScreen():
     t.up()
@@ -19,6 +19,7 @@ def splashScreen():
     t.write("CODE AND SEEK!", align='center', font=('Arial','40'))
     t.goto(0,-150)
     t.write("Rules: The hider chooses one spot on screen, and the seeker gets four chances to find it, given the distance each time.", align='center', font=('Arial','12'))
+    screen.update()
     screen.textinput("Start Game", "Press OK to start the game")
 
 def setLocation():
